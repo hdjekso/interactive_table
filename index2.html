@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Interactive Student info table</title>
+    <meta charset="utf-8">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="script.js" async></script>
+</head>
+
+<body>
+    <style>
+
+        body {
+            background-color: #1b1b32;
+            min-width: 500px;;
+            min-height: 355px;
+            margin: 0 auto;
+            padding-left: 1em;
+            padding-right: 1em;
+            max-width: 1000px;
+            color: white;
+        }
+
+        h1 {
+            font-size: 4em;
+            font-weight: bold;
+            text-align: center;
+            margin: auto;
+            padding: 0.5em;
+            color: white;
+            font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif
+
+        }
+
+        h2 {
+            font-size: 1.7em;
+        }
+
+        h3 {
+            font-size: 1.5em;
+        }
+
+        tr {
+            vertical-align: middle;
+            height: 20%;
+            text-align: center;
+        }
+
+        label {
+            color: white;
+            display: block;
+            margin: 0.5em;
+        }
+
+        .input-form {
+            border: 1px solid white;
+            padding: 0.8em;
+            margin: 0.5em;
+            border-radius: 1%;
+        }
+
+        .level{
+            width: 14em;
+        }
+
+        .submit{
+            margin-top: 0.5em;
+        }
+    </style>
+
+    <h1>Student information table</h1>
+    <section>
+        <form class="input-form add-student">
+            <h2>Add Student Info</h2>
+            <fieldset>
+                <label for="add-name-input">Name: <input id="add-name-input" type="text" required
+                        pattern="[a-zA-Z][a-zA-Z ]{2,}" placeholder="John Doe"></label>
+                <label for="add-email-input">Email: <input id="add-email-input" type="email"
+                        required placeholder="someone@example.com" pattern=".{5,}"></label>
+                <label for="add-level-input">Year level: <input id="add-level-input" type="text" class="level" required
+                        pattern="[Ff]irst-[Yy]ear|[Ss]econd-year|[Tt]hird-[Yy]ear|[Ff]ourth-[Yy]ear"
+                        placeholder="first/second/third/fourth-year"></label>
+            </fieldset>
+            <input type="button" value="Add" id="add-btn" class="submit">
+        </form>
+        <form class="input-form update-student">
+            <h2>Update Student Info</h2>
+            <fieldset>
+                <label for="old-email-input">Enter a preexisting email: <input id="old-email-input"
+                        type="email" required></label>
+                <label for="update-name-input">New name (if applicable): <input id="update-name-input"
+                        type="text"></label>
+                <label for="update-email-input">New email (if applicable): <input id="update-email-input"
+                        type="email"></label>
+                <label for="update-level-input">New year level (if applicable): <input
+                        id="update-level-input" type="text" class="level"
+                        pattern="[Ff]irst-[Yy]ear|[Ss]econd-year|[Tt]hird-[Yy]ear|[Ff]ourth-[Yy]ear"></label>
+            </fieldset>
+            <input type="button" value="Update" id="update-btn" class="submit">
+        </form>
+        <form class="input-form remove-student">
+            <h2>Remove Student Info</h2>
+            <fieldset>
+                <label for="remove-email-input">Email: <input id="remove-email-input" type="email"
+                        required></label>
+            </fieldset>
+            <input type="button" value="Remove" id="remove-btn" class="submit">
+        </form>
+    </section>
+    <section>
+        <div class="container mt-5 mb-5">
+            <table class="table table-bordered table-dark align-items-center student-table">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Level</th>
+                    </tr>
+                </thead>
+                <tbody class="t-body">
+                    <tr>
+                        <td class="student-name">Ray Tam</td>
+                        <td class="student-email">raytam@ucdavis.edu</td>
+                        <td class="student-level">second-year</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+</body>
+
+</html>
