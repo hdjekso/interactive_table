@@ -4,6 +4,8 @@ if (document.readyState == 'loading') {
     ready();
 }
 
+var EmailValueCounter = 2; //used to index added emails
+
 function ready() {
     var addButton = document.getElementById("add-btn");
     addButton.addEventListener('click', addStudentClicked);
@@ -18,37 +20,49 @@ function ready() {
 function addStudentClicked() {
     var addNameInput = document.getElementById("add-name-input").value;
     var addEmailInput = document.getElementById("add-email-input").value;
-    var addLevelInput = document.getElementById("add-level-input").value;
 
+    var addLevelInputValue = document.getElementById('add-level-select').value;
+    var addLevelInput = document.getElementById("add-level-select").options[addLevelInputValue].text;
+
+    //input validation
     var addNameInputValid = document.getElementById("add-name-input").validity.valid;
     var addEmailInputValid = document.getElementById("add-email-input").validity.valid;
-    var addLevelInputValid = document.getElementById("add-level-input").validity.valid;
-    //console.log(addNameInputValid)
-    //console.log(addEmailInputValid)
-    //console.log(addLevelInputValid)
 
+    //checking for empty input
     if (addNameInput == ''){
         alert('Please enter your name');
         return;
     }else if (addEmailInput == ''){
         alert('Please enter your email');
         return;
-    }else if (addLevelInput == ''){
-        alert('Please enter your level');
+    }else if (addLevelInputValue == '0'){
+        alert('Please select your level');
         return;
     }
 
+    
+    //checking for invalid input
     if (!addNameInputValid){
         alert('Invalid name');
         return;
     }else if (!addEmailInputValid){
         alert('Invalid email');
         return;
-    }else if (!addLevelInputValid){
-        alert('Invalid level - Please enter your level in the format "{first,second,third,fourth}-year"');
+    }
+    
+    var studentEmails = document.getElementsByClassName("student-email");
+    var emailFound = false;
+    for (var i = 0; i < studentEmails.length; ++i){ // checking if email already exists
+        if (studentEmails[i].innerText == addEmailInput){
+            emailFound = true;
+            break;
+        }
+    }
+    if (emailFound){
+        alert('Email already exists');
         return;
     }else {
-        console.log("valid")
+        //add to table
         var tableBody = document.getElementsByClassName('t-body')[0];
         var tableRow = document.createElement('tr');
         var tableRowContents = `
@@ -58,27 +72,55 @@ function addStudentClicked() {
         tableRow.innerHTML = tableRowContents;
         tableBody.append(tableRow);
 
+        //add to update select
+        var oldEmailSelect = document.getElementById('old-email-select');
+        var oldEmailOption = document.createElement('option');
+        oldEmailOption.value = EmailValueCounter.toString(); //adding value (index)
+        var oldEmailOptionContents = `
+        ${addEmailInput}`
+        oldEmailOption.innerHTML = oldEmailOptionContents;
+        oldEmailSelect.append(oldEmailOption);
+
+        //add to remove select
+        var removeEmailSelect = document.getElementById('remove-email-select');
+        var removeEmailOption = document.createElement('option');
+        removeEmailOption.value = EmailValueCounter.toString(); //adding value (index)
+        var removeEmailOptionContents = `
+        ${addEmailInput}`
+        removeEmailOption.innerHTML = removeEmailOptionContents;
+        removeEmailSelect.append(removeEmailOption);
+
+        EmailValueCounter += 1;
+
+        //reset inputs/ selections
+        document.getElementById("add-name-input").value = ''; // reset name field
+        document.getElementById("add-email-input").value = ''; // reset email field
+        document.getElementById('add-level-select').value = '0'; // reset level field
+
     }
 }
 
 function updateStudentClicked(){
-    var oldEmailInput = document.getElementById("old-email-input").value;
     var updateNameInput = document.getElementById("update-name-input").value;
     var updateEmailInput = document.getElementById("update-email-input").value;
-    var updateLevelInput = document.getElementById("update-level-input").value;
 
-    var oldEmailInputValid = document.getElementById("old-email-input").validity.valid;
+    //selecting old email
+    var oldEmailInputValue = document.getElementById('old-email-select').value; //value/index
+    var oldEmailInputSelect = document.getElementById('old-email-select')
+    var oldEmailInput = oldEmailInputSelect.options[oldEmailInputSelect.selectedIndex].text;
+    console.log(oldEmailInput);
+
+    //selecting level
+    var updateLevelInputValue = document.getElementById('update-level-select').value;
+    var updateLevelInputSelect = document.getElementById('update-level-select');
+    var updateLevelInput = updateLevelInputSelect.options[updateLevelInputSelect.selectedIndex].text;
+
+    //input validation
     var updateNameInputValid = document.getElementById("update-name-input").validity.valid;
     var updateEmailInputValid = document.getElementById("update-email-input").validity.valid;
-    var updateLevelInputValid = document.getElementById("update-level-input").validity.valid;
 
-    /*console.log(oldEmailInputValid)
-    console.log(updateNameInputValid)
-    console.log(updateEmailInputValid)
-    console.log(updateLevelInputValid)*/
-
-    if (oldEmailInput == ''){
-        alert('Please enter a preexisting email');
+    if (oldEmailInputValue == '0'){
+        alert('Please select an email');
         return;
     }
 
@@ -88,82 +130,99 @@ function updateStudentClicked(){
     }else if (!updateEmailInputValid){
         alert('New email invalid');
         return;
-    }else if (!updateLevelInputValid){
-        alert('New level invalid - Please enter your level in the format "{first,second,third,fourth}-year"');
-        return;
-    }else if (!oldEmailInputValid){
-        alert("Invalid email");
-        return;
     }
-
+    
     var studentEmails = document.getElementsByClassName("student-email");
 
     var updateEmail;
-    var emailFound = false;
-    for (var i = 0; i < studentEmails.length; ++i){ // find email in table
+    var emailFound = false; // new email found
+
+    for (var i = 0; i < studentEmails.length; i++){ // find old email in table
         if (studentEmails[i].innerText == oldEmailInput){
-            updateEmail = studentEmails[i]
+            updateEmail = studentEmails[i];
+            break;
+        }
+    }
+
+    for (var i = 0; i < studentEmails.length; ++i){ // find new email in table (see if it already exists)
+        if (studentEmails[i].innerText == updateEmailInput){
             emailFound = true;
             break;
         }
     }
 
-    if (!emailFound){
-        alert('Email not found');
+    if (emailFound){
+        alert('Email already exists');
         return;
     }
 
+    //update table
     var updateRow = updateEmail.parentElement;
-
     if (updateNameInput != ''){
         var newName = updateRow.getElementsByClassName("student-name")[0];
         newName.innerText = updateNameInput;
     }
 
     if (updateEmailInput != ''){
+        //update email in table
         var newEmail = updateRow.getElementsByClassName("student-email")[0];
         newEmail.innerText = updateEmailInput;
+        
+        //update update select
+        oldEmailInputSelect.options[oldEmailInputSelect.selectedIndex].innerHTML = updateEmailInput;
+
+        //update remove select
+        var removeEmailInputSelect = document.getElementById('remove-email-select');
+        removeEmailInputSelect.options[oldEmailInputSelect.selectedIndex].innerHTML = updateEmailInput;
     }
 
-    if (updateLevelInput != ''){
+    if (updateLevelInputValue != '0'){
         var newLevel = updateRow.getElementsByClassName("student-level")[0];
         newLevel.innerText = updateLevelInput.toLowerCase();
     }
+
+    //reset inputs/ selections
+    document.getElementById("update-name-input").value = ''; // reset new name field
+    document.getElementById("update-email-input").value = ''; // reset new email field
+    document.getElementById('add-level-select').value = '0'; // reset new level field
+    document.getElementById('old-email-select').value = '0' // reset old email select field
 }
 
 function removeStudentClicked(){
-    var removeEmailInput = document.getElementById("remove-email-input").value;
-    var removeEmailInputValid = document.getElementById("remove-email-input").validity.valid;
 
-    if (removeEmailInput == ''){
-        alert('Please enter a preexisting email');
-        return;
-    }
+    var removeEmailInputValue = document.getElementById('remove-email-select').value; // value/ index of removed email
+    var removeEmailInputSelect = document.getElementById('remove-email-select');
+    var removeEmailInput = document.getElementById("remove-email-select").options[removeEmailInputSelect.selectedIndex].text;
 
-    if (!removeEmailInputValid){
-        alert("Invalid email");
+    if (removeEmailInputValue == '0'){
+        alert('Please select an email');
         return;
     }
 
     var removeEmail;
-    var emailFound = false;
     var studentEmails = document.getElementsByClassName("student-email");
 
+    var index;
     for (var i = 0; i < studentEmails.length; ++i){ // find email in table
         if (studentEmails[i].innerText == removeEmailInput){
-            removeEmail = studentEmails[i]
-            emailFound = true;
+            removeEmail = studentEmails[i];
+            index = i;
             break;
         }
     }
 
-    if (!emailFound){
-        alert('Email not found');
-        return;
-    }
-
+    //remove from table
     var removeRow = removeEmail.parentElement;
-    while (removeRow.hasChildNodes()) {
-        removeRow.removeChild(removeRow.firstChild)
-    }
+    var removeTable = removeRow.parentElement;
+    removeTable.removeChild(removeTable.children[index]);
+
+    //remove from update select
+    var oldEmailSelect = document.getElementById('old-email-select');
+    oldEmailSelect.removeChild(oldEmailSelect.options[removeEmailInputSelect.selectedIndex]);
+
+    //remove from remove select
+    var removeEmailSelect = document.getElementById('remove-email-select');
+    removeEmailSelect.removeChild(removeEmailSelect.options[removeEmailInputSelect.selectedIndex]);
+
+    document.getElementById('remove-email-select').value = '0'; // reset default selection option to (select one)
 }

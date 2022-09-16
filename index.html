@@ -79,32 +79,52 @@
                         pattern="[a-zA-Z][a-zA-Z ]{2,}" placeholder="John Doe"></label>
                 <label for="add-email-input">Email: <input id="add-email-input" type="email"
                         required placeholder="someone@example.com" pattern=".{5,}"></label>
-                <label for="add-level-input">Year level: <input id="add-level-input" type="text" class="level" required
-                        pattern="[Ff]irst-[Yy]ear|[Ss]econd-year|[Tt]hird-[Yy]ear|[Ff]ourth-[Yy]ear"
-                        placeholder="first/second/third/fourth-year"></label>
+                <label for="add-level-input">Year level: 
+                    <select id="add-level-select">
+                        <option value="0">(select one)</option>
+                        <option value="1">first-year</option>
+                        <option value="2">second-year</option>
+                        <option value="3">third-year</option>
+                        <option value="4">fourth-year</option>
+                    </select>
+                </label>
             </fieldset>
             <input type="button" value="Add" id="add-btn" class="submit">
         </form>
         <form class="input-form update-student">
             <h2>Update Student Info</h2>
             <fieldset>
-                <label for="old-email-input">Enter a preexisting email: <input id="old-email-input"
-                        type="email" required></label>
+                <label for="old-email-input">Enter a preexisting email:
+                    <select id="old-email-select">
+                        <option value="0">(select one)</option>
+                        <option value="1">raytam@ucdavis.edu</option>
+                    </select>
+                </label>
                 <label for="update-name-input">New name (if applicable): <input id="update-name-input"
                         type="text"></label>
                 <label for="update-email-input">New email (if applicable): <input id="update-email-input"
                         type="email"></label>
-                <label for="update-level-input">New year level (if applicable): <input
-                        id="update-level-input" type="text" class="level"
-                        pattern="[Ff]irst-[Yy]ear|[Ss]econd-year|[Tt]hird-[Yy]ear|[Ff]ourth-[Yy]ear"></label>
+                <label">Year level: 
+                    <select id="update-level-select">
+                        <option value="0">(select one)</option>
+                        <option value="1">first-year</option>
+                        <option value="2">second-year</option>
+                        <option value="3">third-year</option>
+                        <option value="4">fourth-year</option>
+                    </select>
+                </label>
             </fieldset>
             <input type="button" value="Update" id="update-btn" class="submit">
         </form>
         <form class="input-form remove-student">
             <h2>Remove Student Info</h2>
             <fieldset>
-                <label for="remove-email-input">Email: <input id="remove-email-input" type="email"
-                        required></label>
+                <label for="remove-email-input">Email:
+                    <select id="remove-email-select">
+                        <option value="0">(select one)</option>
+                        <option value="1">raytam@ucdavis.edu</option>
+                    </select>
+                </label>
             </fieldset>
             <input type="button" value="Remove" id="remove-btn" class="submit">
         </form>
