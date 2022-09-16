@@ -76,7 +76,7 @@
             <h2>Add Student Info</h2>
             <fieldset>
                 <label for="add-name-input">Name: <input id="add-name-input" type="text" required
-                        pattern="[a-zA-Z][a-zA-Z ]{2,}" placeholder="John Doe"></label>
+                        pattern="[a-zA-Z][a-zA-Z ]{2,25}" placeholder="John Doe"></label>
                 <label for="add-email-input">Email: <input id="add-email-input" type="email"
                         required placeholder="someone@example.com" pattern=".{5,}"></label>
                 <label for="add-level-input">Year level: 
@@ -101,7 +101,7 @@
                     </select>
                 </label>
                 <label for="update-name-input">New name (if applicable): <input id="update-name-input"
-                        type="text"></label>
+                        type="text" pattern=".{0}|[a-zA-Z][a-zA-Z ]{2,25}"></label>
                 <label for="update-email-input">New email (if applicable): <input id="update-email-input"
                         type="email"></label>
                 <label">Year level: 
